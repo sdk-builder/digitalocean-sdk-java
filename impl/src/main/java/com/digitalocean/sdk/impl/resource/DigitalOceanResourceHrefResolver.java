@@ -36,9 +36,17 @@ public class DigitalOceanResourceHrefResolver implements ResourceHrefResolver {
 
     private <R extends Resource> String fixSelfHref(Map<String, ?> properties, Class<R> clazz) {
 
-        // the AppUsers object does NOT contain a self link, in this case we need build it based on the 'app' link
-        Map<String, ?> links = getMapValue(properties, "_links");
-        if (links != null) {
+
+        Object id = properties.get("id");
+        if (id == null) {
+            id = properties.get("droplet");
+            if (id != null) {
+                id = ((Map) id).get("id");
+            }
+        }
+
+        if (id != null && id instanceof Integer) {
+            return "https://api.digitalocean.com/v2/droplets/" + id;
         }
 
         return null;

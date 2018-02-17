@@ -8,6 +8,7 @@ import com.digitalocean.sdk.impl.http.authc.RequestAuthenticatorFactory;
 import com.digitalocean.sdk.impl.util.BaseUrlResolver;
 import com.digitalocean.sdk.resource.droplet.Droplet;
 import com.digitalocean.sdk.resource.droplet.DropletContainer;
+import com.digitalocean.sdk.resource.droplet.DropletList;
 
 import static com.digitalocean.sdk.lang.Assert.hasText;
 
@@ -29,5 +30,11 @@ public class DefaultClient extends AbstractClient {
         String href = "/v2/droplets/" + id;
         DropletContainer dropletContainer = getDataStore().getResource(href, DropletContainer.class);
         return dropletContainer.getDroplet();
+    }
+
+    @Override
+    public DropletList listDroplets() {
+        String href = "/v2/droplets";
+        return getDataStore().getResource(href, DropletList.class);
     }
 }

@@ -38,8 +38,9 @@ import java.util.stream.StreamSupport;
  */
 public abstract class AbstractCollectionResource<T extends Resource> extends AbstractResource implements CollectionResource<T> {
 
+    public static final String ITEMS_PROPERTY_NAME = "droplets";
+
     private static final StringProperty NEXT_PAGE = new StringProperty("nextPage");
-    private static final String ITEMS_PROPERTY_NAME = "items";
 
     private final Map<String, Object> queryParams;
     private String nextPageHref = null;
