@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.okta.sdk</groupId>
-        <artifactId>okta-sdk-root</artifactId>
+        <groupId>com.afitnerd.sdk</groupId>
+        <artifactId>digitalocean-sdk-root</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>okta-sdk-api</artifactId>
-    <name>Okta Java SDK :: API</name>
+    <artifactId>digitalocean-sdk-api</artifactId>
+    <name>DigitalOcean Java SDK :: API</name>
     <packaging>jar</packaging>
 
     <dependencies>

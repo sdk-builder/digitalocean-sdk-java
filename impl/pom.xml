@@ -5,31 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.okta.sdk</groupId>
-        <artifactId>okta-sdk-root</artifactId>
+        <groupId>com.afitnerd.sdk</groupId>
+        <artifactId>digitalocean-sdk-root</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>okta-sdk-impl</artifactId>
-    <name>Okta Java SDK :: Impl</name>
+    <artifactId>digitalocean-sdk-impl</artifactId>
+    <name>DigitalOcean Java SDK :: Impl</name>
 
     <dependencies>
         <dependency>
-            <groupId>com.okta.sdk</groupId>
-            <artifactId>okta-sdk-api</artifactId>
+            <groupId>com.afitnerd.sdk</groupId>
+            <artifactId>digitalocean-sdk-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
