@@ -2,7 +2,7 @@ package com.digitalocean.quickstart;
 
 import com.digitalocean.sdk.client.Client;
 import com.digitalocean.sdk.client.Clients;
-import com.digitalocean.sdk.resource.droplet.DropletList;
+import com.digitalocean.sdk.resource.droplet.Droplet;
 
 public class QuickStart {
 
@@ -10,10 +10,15 @@ public class QuickStart {
 
         Client client =  Clients.builder().build();
 
-        DropletList droplets = client.listDroplets(null, 1);
-        System.out.println("total droplets: " + droplets.getTotal());
-        droplets.stream()
-            .filter(d -> d.getName().startsWith("ma"))
-            .forEach(d -> System.out.println(d.getName()));
+        Droplet droplet = client.instantiate(Droplet.class)
+            .setName("micah-test")
+            .setRegion("nyc3")
+            .setSize("s-1vcpu-1gb")
+            .setImage("ubuntu-16-04-x64");
+
+        droplet = client.createDroplet(droplet);
+
+        System.out.println("droplet id: " + droplet.getId() + ", name: " + droplet.getName());
+        System.out.println("region: " + droplet.getRegion());
     }
 }

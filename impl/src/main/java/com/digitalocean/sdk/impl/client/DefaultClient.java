@@ -12,6 +12,7 @@ import com.digitalocean.sdk.resource.droplet.DropletContainer;
 import com.digitalocean.sdk.resource.droplet.DropletList;
 
 import static com.digitalocean.sdk.lang.Assert.hasText;
+import static com.digitalocean.sdk.lang.Assert.notNull;
 
 public class DefaultClient extends AbstractClient {
 
@@ -52,5 +53,18 @@ public class DefaultClient extends AbstractClient {
         }
         String href = QueryString.buildHref("/v2/droplets", queryString);
         return getDataStore().getResource(href, DropletList.class);
+    }
+
+    @Override
+    public Droplet createDroplet(Droplet droplet) {
+        notNull(droplet, "A droplet parameter is required");
+        String href = "/v2/droplets";
+        DropletContainer dropletContainer = getDataStore().create(
+            href,
+            droplet,
+            null,
+            DropletContainer.class
+        );
+        return dropletContainer.getDroplet();
     }
 }

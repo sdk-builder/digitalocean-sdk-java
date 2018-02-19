@@ -22,6 +22,10 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     private final static BooleanProperty lockedProperty = new BooleanProperty("locked");
     private final static StringProperty statusProperty = new StringProperty("status");
 
+    private final static StringProperty regionProperty = new StringProperty("region");
+    private final static StringProperty sizeProperty = new StringProperty("size");
+    private final static StringProperty imageProperty = new StringProperty("image");
+
     private final static Map<String, Property> PROPERTY_DESCRIPTORS = createPropertyDescriptorMap(
         idProperty, nameProperty, memoryProperty, vcpusProperty, diskProperty, lockedProperty, statusProperty
     );
@@ -71,6 +75,21 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     }
 
     @Override
+    public String getRegion() {
+        return getString(regionProperty);
+    }
+
+    @Override
+    public String getSize() {
+        return getString(sizeProperty);
+    }
+
+    @Override
+    public String getImage() {
+       return getString(imageProperty);
+    }
+
+    @Override
     public Droplet setId(Long id) {
         setProperty(idProperty, id);
         return this;
@@ -109,6 +128,24 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     @Override
     public Droplet setStatus(String status) {
         setProperty(statusProperty, status);
+        return this;
+    }
+
+    @Override
+    public Droplet setRegion(String region) {
+        setProperty(regionProperty, region);
+        return this;
+    }
+
+    @Override
+    public Droplet setSize(String size) {
+        setProperty(sizeProperty, size);
+        return this;
+    }
+
+    @Override
+    public Droplet setImage(String image) {
+        setProperty(imageProperty, image);
         return this;
     }
 
