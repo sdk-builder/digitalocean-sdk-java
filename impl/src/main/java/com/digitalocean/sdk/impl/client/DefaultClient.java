@@ -4,6 +4,7 @@ import com.digitalocean.sdk.cache.CacheManager;
 import com.digitalocean.sdk.client.AuthenticationScheme;
 import com.digitalocean.sdk.client.Proxy;
 import com.digitalocean.sdk.impl.api.ClientCredentialsResolver;
+import com.digitalocean.sdk.impl.http.QueryString;
 import com.digitalocean.sdk.impl.http.authc.RequestAuthenticatorFactory;
 import com.digitalocean.sdk.impl.util.BaseUrlResolver;
 import com.digitalocean.sdk.resource.droplet.Droplet;
@@ -35,6 +36,21 @@ public class DefaultClient extends AbstractClient {
     @Override
     public DropletList listDroplets() {
         String href = "/v2/droplets";
+        return getDataStore().getResource(href, DropletList.class);
+    }
+
+    @Override
+    public DropletList listDroplets(Integer page, Integer perPage) {
+        QueryString queryString = new QueryString();
+
+        if (page != null) {
+            queryString.put("page", page);
+        }
+
+        if (perPage != null) {
+            queryString.put("per_page", perPage);
+        }
+        String href = QueryString.buildHref("/v2/droplets", queryString);
         return getDataStore().getResource(href, DropletList.class);
     }
 }

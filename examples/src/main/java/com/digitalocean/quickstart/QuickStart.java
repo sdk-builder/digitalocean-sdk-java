@@ -7,9 +7,13 @@ import com.digitalocean.sdk.resource.droplet.DropletList;
 public class QuickStart {
 
     public static void main(String[] args) {
+
         Client client =  Clients.builder().build();
 
-        DropletList droplets = client.listDroplets();
-        droplets.stream().forEach(d -> System.out.println(d.getName()));
+        DropletList droplets = client.listDroplets(null, 1);
+        System.out.println("total droplets: " + droplets.getTotal());
+        droplets.stream()
+            .filter(d -> d.getName().startsWith("ma"))
+            .forEach(d -> System.out.println(d.getName()));
     }
 }

@@ -40,32 +40,65 @@ public abstract class AbstractCollectionResource<T extends Resource> extends Abs
 
     public static final String ITEMS_PROPERTY_NAME = "droplets";
 
-    private static final StringProperty NEXT_PAGE = new StringProperty("nextPage");
+    private static final MapProperty LINKS = new MapProperty("links");
+    private static final MapProperty META = new MapProperty("meta");
 
     private final Map<String, Object> queryParams;
     private String nextPageHref = null;
+    private String prevPageHref = null;
+    private Integer total = null;
 
     private final AtomicBoolean firstPageQueryRequired = new AtomicBoolean();
 
     protected AbstractCollectionResource(InternalDataStore dataStore) {
         super(dataStore);
+        this.total = getTotal();
         this.queryParams = Collections.emptyMap();
     }
 
     protected AbstractCollectionResource(InternalDataStore dataStore, Map<String, Object> properties) {
         super(dataStore, properties);
         this.queryParams = Collections.emptyMap();
-        this.nextPageHref = getString(NEXT_PAGE);
+        this.nextPageHref = getNext();
+        this.total = getTotal();
     }
 
     protected AbstractCollectionResource(InternalDataStore dataStore, Map<String, Object> properties, Map<String, Object> queryParams) {
         super(dataStore, properties);
-        this.nextPageHref = getString(NEXT_PAGE);
+        this.nextPageHref = getNext();
+        this.total = getTotal();
         if (queryParams != null) {
             this.queryParams = queryParams;
         } else {
             this.queryParams = Collections.emptyMap();
         }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Integer getTotal() {
+        Integer ret = null;
+
+        Map<String, Object> meta = getMap(META);
+        if (meta != null) {
+            ret = (Integer) meta.get("total");
+        }
+
+        return ret;
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getNext() {
+        String ret = null;
+        Map<String, Object> links = getMap(LINKS);
+        if (links != null) {
+            Map<String, Object> pages = (Map<String, Object>) links.get("pages");
+            if (pages != null) {
+                ret = (String) pages.get("next");
+            }
+        }
+
+        return ret;
     }
 
     private String getNextPageHref() {
@@ -209,7 +242,7 @@ public abstract class AbstractCollectionResource<T extends Resource> extends Abs
                     this.resource = nextResource;
                     this.currentPage = nextPage;
                     this.currentPageIterator = nextIterator;
-                    nextPageHref = nextResource.getString(NEXT_PAGE);
+                    nextPageHref = nextResource.getNext();
                 }
             }
 

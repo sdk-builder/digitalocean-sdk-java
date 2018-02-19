@@ -9,4 +9,5 @@ public interface Client extends DataStore {
     DataStore getDataStore();
     Droplet getDroplet(String id);
     DropletList listDroplets();
+    DropletList listDroplets(Integer page, Integer perPage);
 }

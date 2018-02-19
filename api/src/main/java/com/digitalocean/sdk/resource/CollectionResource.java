@@ -26,6 +26,8 @@ import java.util.stream.Stream;
  */
 public interface CollectionResource<T extends Resource> extends Resource, Iterable<T> {
 
+    public Integer getTotal();
+
     /**
      * This is just a convenience method to retrieve the single element expected to exist in this collection. This method is
      * intended to be used in cases where the returned list is explicitly expected to contain a single element. This operation will throw

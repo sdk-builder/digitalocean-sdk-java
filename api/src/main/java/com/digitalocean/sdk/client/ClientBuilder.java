@@ -47,13 +47,13 @@ import com.digitalocean.sdk.cache.Caches;
  * </ul>
  *
  * <ol>
- *     <li>The environment variable {@code OKTA_CLIENT_TOKEN}.  If either of
+ *     <li>The environment variable {@code DIGITALOCEAN_CLIENT_TOKEN}.  If either of
  *         these values are present, they override any previously discovered value.</li>
  *     <li>A yaml file that exists at the file path or URL specified by the {@code digitalocean.client.file}
  *         system property.  If this file exists and any values are present, the values override any
  *         previously discovered value.  The {@code digitalocean.client.file} system property String can be an
  *         absolute file path, or it can be a URL or a classpath value by using the {@code url:} or
- *         {@code classpath:} prefixes respectively. Default value is {code ~/.okta/digitalocean.yaml}. </li>
+ *         {@code classpath:} prefixes respectively. Default value is {code ~/.digitalocean/digitalocean.yaml}. </li>
  *     <li>The system properties {@code digitalocean.client.token}.  If this value is present, it will override any
  *     previously discovered values.</li>
  * </ol>
