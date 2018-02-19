@@ -5,10 +5,12 @@ import com.digitalocean.sdk.impl.resource.BooleanProperty;
 import com.digitalocean.sdk.impl.resource.IntegerProperty;
 import com.digitalocean.sdk.impl.resource.LongProperty;
 import com.digitalocean.sdk.impl.resource.Property;
+import com.digitalocean.sdk.impl.resource.ResourceReference;
 import com.digitalocean.sdk.impl.resource.StringProperty;
 import com.digitalocean.sdk.resource.Resource;
 import com.digitalocean.sdk.resource.droplet.Droplet;
 import com.digitalocean.sdk.impl.resource.AbstractInstanceResource;
+import com.digitalocean.sdk.resource.droplet.DropletRegion;
 
 import java.util.Map;
 
@@ -26,8 +28,12 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     private final static StringProperty sizeProperty = new StringProperty("size");
     private final static StringProperty imageProperty = new StringProperty("image");
 
+    private final static ResourceReference<DropletRegion> dropletRegionProperty =
+        new ResourceReference("region", DropletRegion.class, false);
+
     private final static Map<String, Property> PROPERTY_DESCRIPTORS = createPropertyDescriptorMap(
-        idProperty, nameProperty, memoryProperty, vcpusProperty, diskProperty, lockedProperty, statusProperty
+        idProperty, nameProperty, memoryProperty, vcpusProperty, diskProperty, lockedProperty, statusProperty,
+        regionProperty, sizeProperty, imageProperty, dropletRegionProperty
     );
 
     public DefaultDroplet(InternalDataStore dataStore) {
@@ -90,6 +96,11 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     }
 
     @Override
+    public DropletRegion getDropletRegion() {
+        return getResourceProperty(dropletRegionProperty);
+    }
+
+    @Override
     public Droplet setId(Long id) {
         setProperty(idProperty, id);
         return this;
@@ -146,6 +157,12 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     @Override
     public Droplet setImage(String image) {
         setProperty(imageProperty, image);
+        return this;
+    }
+
+    @Override
+    public Droplet setDropletRegion(DropletRegion dropletRegion) {
+        setProperty(dropletRegionProperty, dropletRegion);
         return this;
     }
 

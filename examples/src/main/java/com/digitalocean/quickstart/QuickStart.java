@@ -9,7 +9,6 @@ public class QuickStart {
     public static void main(String[] args) {
 
         Client client =  Clients.builder().build();
-
         Droplet droplet = client.instantiate(Droplet.class)
             .setName("micah-test")
             .setRegion("nyc3")
@@ -19,6 +18,6 @@ public class QuickStart {
         droplet = client.createDroplet(droplet);
 
         System.out.println("droplet id: " + droplet.getId() + ", name: " + droplet.getName());
-        System.out.println("region: " + droplet.getRegion());
+        System.out.println("region: " + droplet.getDropletRegion().getSlug());
     }
 }
