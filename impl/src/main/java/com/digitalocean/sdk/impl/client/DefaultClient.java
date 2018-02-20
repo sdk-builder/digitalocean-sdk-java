@@ -6,6 +6,7 @@ import com.digitalocean.sdk.client.Proxy;
 import com.digitalocean.sdk.impl.api.ClientCredentialsResolver;
 import com.digitalocean.sdk.impl.http.QueryString;
 import com.digitalocean.sdk.impl.http.authc.RequestAuthenticatorFactory;
+import com.digitalocean.sdk.impl.resource.droplet.InternalDroplet;
 import com.digitalocean.sdk.impl.util.BaseUrlResolver;
 import com.digitalocean.sdk.resource.droplet.Droplet;
 import com.digitalocean.sdk.resource.droplet.DropletContainer;
@@ -58,10 +59,19 @@ public class DefaultClient extends AbstractClient {
     @Override
     public Droplet createDroplet(Droplet droplet) {
         notNull(droplet, "A droplet parameter is required");
+
+        // need to setup InternalDroplet here
+        InternalDroplet internalDroplet = new InternalDroplet(getDataStore());
+
+        internalDroplet.setName(droplet.getName());
+        internalDroplet.setRegion(droplet.getDropletRegion().getSlug());
+        internalDroplet.setSize(droplet.getSize());
+        internalDroplet.setImage(droplet.getImage());
+
         String href = "/v2/droplets";
-        DropletContainer dropletContainer = getDataStore().create(
+        DropletContainer dropletContainer =  getDataStore().create(
             href,
-            droplet,
+            internalDroplet,
             null,
             DropletContainer.class
         );

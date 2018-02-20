@@ -12,7 +12,6 @@ public interface Droplet extends Resource {
     Boolean getLocked();
     String getStatus();
 
-    String getRegion();
     String getSize();
     String getImage();
 
@@ -26,7 +25,6 @@ public interface Droplet extends Resource {
     Droplet setLocked(Boolean locked);
     Droplet setStatus(String status);
 
-    Droplet setRegion(String region);
     Droplet setSize(String size);
     Droplet setImage(String image);
 

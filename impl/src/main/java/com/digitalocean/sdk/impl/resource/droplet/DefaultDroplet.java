@@ -16,24 +16,23 @@ import java.util.Map;
 
 public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements Droplet {
 
-    private final static LongProperty idProperty = new LongProperty("id");
-    private final static StringProperty nameProperty = new StringProperty("name");
-    private final static LongProperty memoryProperty = new LongProperty("memory");
-    private final static IntegerProperty vcpusProperty = new IntegerProperty("vcpus");
-    private final static IntegerProperty diskProperty = new IntegerProperty("disk");
-    private final static BooleanProperty lockedProperty = new BooleanProperty("locked");
-    private final static StringProperty statusProperty = new StringProperty("status");
+    final static LongProperty idProperty = new LongProperty("id");
+    final static StringProperty nameProperty = new StringProperty("name");
+    final static LongProperty memoryProperty = new LongProperty("memory");
+    final static IntegerProperty vcpusProperty = new IntegerProperty("vcpus");
+    final static IntegerProperty diskProperty = new IntegerProperty("disk");
+    final static BooleanProperty lockedProperty = new BooleanProperty("locked");
+    final static StringProperty statusProperty = new StringProperty("status");
 
-    private final static StringProperty regionProperty = new StringProperty("region");
-    private final static StringProperty sizeProperty = new StringProperty("size");
-    private final static StringProperty imageProperty = new StringProperty("image");
+    final static StringProperty sizeProperty = new StringProperty("size");
+    final static StringProperty imageProperty = new StringProperty("image");
 
-    private final static ResourceReference<DropletRegion> dropletRegionProperty =
+    final static ResourceReference<DropletRegion> dropletRegionProperty =
         new ResourceReference("region", DropletRegion.class, false);
 
-    private final static Map<String, Property> PROPERTY_DESCRIPTORS = createPropertyDescriptorMap(
-        idProperty, nameProperty, memoryProperty, vcpusProperty, diskProperty, lockedProperty, statusProperty,
-        regionProperty, sizeProperty, imageProperty, dropletRegionProperty
+    final static Map<String, Property> PROPERTY_DESCRIPTORS = createPropertyDescriptorMap(
+        idProperty, nameProperty, memoryProperty, vcpusProperty, diskProperty, lockedProperty,
+        statusProperty, sizeProperty, imageProperty, dropletRegionProperty
     );
 
     public DefaultDroplet(InternalDataStore dataStore) {
@@ -78,11 +77,6 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     @Override
     public String getStatus() {
         return getString(statusProperty);
-    }
-
-    @Override
-    public String getRegion() {
-        return getString(regionProperty);
     }
 
     @Override
@@ -139,12 +133,6 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     @Override
     public Droplet setStatus(String status) {
         setProperty(statusProperty, status);
-        return this;
-    }
-
-    @Override
-    public Droplet setRegion(String region) {
-        setProperty(regionProperty, region);
         return this;
     }
 
