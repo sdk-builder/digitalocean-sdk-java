@@ -1,10 +1,12 @@
 package com.digitalocean.sdk.resource.droplet;
 
+import com.digitalocean.sdk.resource.Deletable;
 import com.digitalocean.sdk.resource.Resource;
+import com.digitalocean.sdk.resource.Saveable;
 
 import java.util.List;
 
-public interface Droplet extends Resource {
+public interface Droplet extends Resource, Deletable, Saveable<Droplet> {
 
     Long getId();
     String getName();

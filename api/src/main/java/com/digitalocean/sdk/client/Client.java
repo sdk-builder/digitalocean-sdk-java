@@ -12,4 +12,5 @@ public interface Client extends DataStore {
     DropletList listDroplets(Integer page, Integer perPage);
     Droplet createDroplet(Droplet droplet);
     DropletList createDroplets(Droplet droplet, int numDroplets);
+    void deleteByTag(String tag);
 }

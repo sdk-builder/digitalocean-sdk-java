@@ -97,6 +97,12 @@ public class DefaultClient extends AbstractClient {
         );
     }
 
+    @Override
+    public void deleteByTag(String tag) {
+        String href = "/v2/droplets?tag_name=" + tag;
+        getDataStore().delete(href);
+    }
+
     private InternalDroplet copyDroplet(Droplet droplet) {
         // copies everything by name and names
         InternalDroplet internalDroplet = new InternalDroplet(getDataStore());

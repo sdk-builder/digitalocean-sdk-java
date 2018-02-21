@@ -170,6 +170,11 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     }
 
     @Override
+    public void delete() {
+        getDataStore().delete(this);
+    }
+
+    @Override
     public Class<? extends Resource> getResourceClass() {
         return Droplet.class;
     }

@@ -22,7 +22,7 @@ public class QuickStart {
 
         System.out.println("droplet id: " + droplet.getId() + ", name: " + droplet.getName());
 
-        droplet = DropletBuilder.instance()
+        Droplet dropletTemplate = DropletBuilder.instance()
             .setName("micah-test")
             .setRegionSlug("nyc3")
             .setSize("s-1vcpu-1gb")
@@ -30,8 +30,11 @@ public class QuickStart {
             .addTag("devnexus")
             .build(client);
 
-        DropletList droplets = client.createDroplets(droplet, 10);
+        DropletList droplets = client.createDroplets(dropletTemplate, 10);
 
         droplets.stream().forEach(d -> System.out.println("droplet id: " + d.getId() + ", name: " + d.getName()));
+
+        droplet.delete();
+        client.deleteByTag("devnexus");
     }
 }
