@@ -14,5 +14,8 @@ public interface DropletBuilder {
     DropletBuilder setSize(String size);
     DropletBuilder setImage(String image);
 
+    DropletBuilder addTag(String tag);
+
+    Droplet build(Client client);
     Droplet buildAndCreate(Client client);
 }

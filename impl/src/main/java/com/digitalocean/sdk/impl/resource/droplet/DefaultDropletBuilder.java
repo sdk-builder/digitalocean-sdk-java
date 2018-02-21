@@ -5,12 +5,16 @@ import com.digitalocean.sdk.resource.droplet.Droplet;
 import com.digitalocean.sdk.resource.droplet.DropletBuilder;
 import com.digitalocean.sdk.resource.droplet.DropletRegion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DefaultDropletBuilder implements DropletBuilder {
 
     private String name;
     private String size;
     private String image;
     private String regionSlug;
+    private List<String> tags = new ArrayList();
 
     @Override
     public DropletBuilder setRegionSlug(String regionSlug) {
@@ -37,17 +41,28 @@ public class DefaultDropletBuilder implements DropletBuilder {
     }
 
     @Override
-    public Droplet buildAndCreate(Client client) {
+    public DropletBuilder addTag(String tag) {
+        this.tags.add(tag);
+        return this;
+    }
 
+    @Override
+    public Droplet build(Client client) {
         DropletRegion dr = client.instantiate(DropletRegion.class);
         dr.setSlug(this.regionSlug);
 
-        Droplet droplet = client.instantiate(Droplet.class)
+        return client.instantiate(Droplet.class)
             .setName(this.name)
             .setDropletRegion(dr)
             .setSize(this.size)
-            .setImage(this.image);
+            .setImage(this.image)
+            .setTags(tags);
+    }
 
+    @Override
+    public Droplet buildAndCreate(Client client) {
+
+        Droplet droplet = build(client);
         return client.createDroplet(droplet);
     }
 }

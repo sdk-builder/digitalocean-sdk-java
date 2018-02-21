@@ -2,6 +2,8 @@ package com.digitalocean.sdk.resource.droplet;
 
 import com.digitalocean.sdk.resource.Resource;
 
+import java.util.List;
+
 public interface Droplet extends Resource {
 
     Long getId();
@@ -15,6 +17,8 @@ public interface Droplet extends Resource {
     String getSize();
     String getImage();
 
+    List<String> getTags();
+
     DropletRegion getDropletRegion();
 
     Droplet setId(Long id);
@@ -27,6 +31,8 @@ public interface Droplet extends Resource {
 
     Droplet setSize(String size);
     Droplet setImage(String image);
+
+    Droplet setTags(List<String> tags);
 
     Droplet setDropletRegion(DropletRegion dropletRegion);
 }

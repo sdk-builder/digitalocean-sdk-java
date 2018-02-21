@@ -3,6 +3,7 @@ package com.digitalocean.sdk.impl.resource.droplet;
 import com.digitalocean.sdk.impl.ds.InternalDataStore;
 import com.digitalocean.sdk.impl.resource.BooleanProperty;
 import com.digitalocean.sdk.impl.resource.IntegerProperty;
+import com.digitalocean.sdk.impl.resource.ListProperty;
 import com.digitalocean.sdk.impl.resource.LongProperty;
 import com.digitalocean.sdk.impl.resource.Property;
 import com.digitalocean.sdk.impl.resource.ResourceReference;
@@ -12,6 +13,7 @@ import com.digitalocean.sdk.resource.droplet.Droplet;
 import com.digitalocean.sdk.impl.resource.AbstractInstanceResource;
 import com.digitalocean.sdk.resource.droplet.DropletRegion;
 
+import java.util.List;
 import java.util.Map;
 
 public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements Droplet {
@@ -26,6 +28,8 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
 
     final static StringProperty sizeProperty = new StringProperty("size");
     final static StringProperty imageProperty = new StringProperty("image");
+
+    final static ListProperty tagsProperty = new ListProperty("tags");
 
     final static ResourceReference<DropletRegion> dropletRegionProperty =
         new ResourceReference("region", DropletRegion.class, false);
@@ -90,6 +94,11 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     }
 
     @Override
+    public List<String> getTags() {
+        return getListProperty(tagsProperty);
+    }
+
+    @Override
     public DropletRegion getDropletRegion() {
         return getResourceProperty(dropletRegionProperty);
     }
@@ -145,6 +154,12 @@ public class DefaultDroplet extends AbstractInstanceResource<Droplet> implements
     @Override
     public Droplet setImage(String image) {
         setProperty(imageProperty, image);
+        return this;
+    }
+
+    @Override
+    public Droplet setTags(List<String> tags) {
+        setProperty(tagsProperty, tags);
         return this;
     }
 

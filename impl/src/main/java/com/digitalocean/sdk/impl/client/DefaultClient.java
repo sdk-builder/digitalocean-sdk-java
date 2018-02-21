@@ -12,6 +12,10 @@ import com.digitalocean.sdk.resource.droplet.Droplet;
 import com.digitalocean.sdk.resource.droplet.DropletContainer;
 import com.digitalocean.sdk.resource.droplet.DropletList;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static com.digitalocean.sdk.lang.Assert.hasText;
 import static com.digitalocean.sdk.lang.Assert.notNull;
 
@@ -61,12 +65,8 @@ public class DefaultClient extends AbstractClient {
         notNull(droplet, "A droplet parameter is required");
 
         // need to setup InternalDroplet here
-        InternalDroplet internalDroplet = new InternalDroplet(getDataStore());
-
+        InternalDroplet internalDroplet = copyDroplet(droplet);
         internalDroplet.setName(droplet.getName());
-        internalDroplet.setRegion(droplet.getDropletRegion().getSlug());
-        internalDroplet.setSize(droplet.getSize());
-        internalDroplet.setImage(droplet.getImage());
 
         String href = "/v2/droplets";
         DropletContainer dropletContainer =  getDataStore().create(
@@ -76,5 +76,36 @@ public class DefaultClient extends AbstractClient {
             DropletContainer.class
         );
         return dropletContainer.getDroplet();
+    }
+
+    @Override
+    public DropletList createDroplets(Droplet droplet, int numDroplets) {
+        List<String> names = IntStream.rangeClosed(1, numDroplets).boxed()
+            .map(i -> droplet.getName() + "-" + i)
+            .collect(Collectors.toList());
+
+        // need to setup InternalDroplet here
+        InternalDroplet internalDroplet = copyDroplet(droplet);
+        internalDroplet.setNames(names);
+
+        String href = "/v2/droplets";
+        return getDataStore().create(
+            href,
+            internalDroplet,
+            null,
+            DropletList.class
+        );
+    }
+
+    private InternalDroplet copyDroplet(Droplet droplet) {
+        // copies everything by name and names
+        InternalDroplet internalDroplet = new InternalDroplet(getDataStore());
+
+        internalDroplet.setRegion(droplet.getDropletRegion().getSlug());
+        internalDroplet.setSize(droplet.getSize());
+        internalDroplet.setImage(droplet.getImage());
+        internalDroplet.setTags(droplet.getTags());
+
+        return internalDroplet;
     }
 }
