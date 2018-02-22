@@ -13,13 +13,15 @@ import com.digitalocean.sdk.resource.droplet.DropletContainer;
 import com.digitalocean.sdk.resource.droplet.DropletList;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.digitalocean.sdk.lang.Assert.hasText;
 import static com.digitalocean.sdk.lang.Assert.notNull;
 
 public class DefaultClient extends AbstractClient {
+
+    static String BASE_URI = "/v2/droplets";
 
     public DefaultClient(ClientCredentialsResolver clientCredentialsResolver,
                          BaseUrlResolver baseUrlResolver,
@@ -32,31 +34,35 @@ public class DefaultClient extends AbstractClient {
     }
 
     @Override
-    public Droplet getDroplet(String id) {
-        hasText(id, "'id' is required and cannot be null or empty.");
-        String href = "/v2/droplets/" + id;
+    public Droplet getDropletById(Long id) {
+        notNull(id, "'id' is required and cannot be null or empty.");
+        String href = BASE_URI + "/" + id;
         DropletContainer dropletContainer = getDataStore().getResource(href, DropletContainer.class);
         return dropletContainer.getDroplet();
     }
 
     @Override
     public DropletList listDroplets() {
-        String href = "/v2/droplets";
+        return getDataStore().getResource(BASE_URI, DropletList.class);
+    }
+
+    @Override
+    public DropletList listDroplets(Map<String, Object> queryParams) {
+        QueryString queryString = new QueryString();
+
+        if (queryParams != null) {
+            for (String key : queryParams.keySet()) {
+                queryString.put(key, queryParams.get(key));
+            }
+        }
+
+        String href = QueryString.buildHref(BASE_URI, queryString);
         return getDataStore().getResource(href, DropletList.class);
     }
 
     @Override
-    public DropletList listDroplets(Integer page, Integer perPage) {
-        QueryString queryString = new QueryString();
-
-        if (page != null) {
-            queryString.put("page", page);
-        }
-
-        if (perPage != null) {
-            queryString.put("per_page", perPage);
-        }
-        String href = QueryString.buildHref("/v2/droplets", queryString);
+    public DropletList listDropletsByTag(String tag) {
+        String href = BASE_URI + "?tag_name=" + tag;
         return getDataStore().getResource(href, DropletList.class);
     }
 
@@ -68,9 +74,8 @@ public class DefaultClient extends AbstractClient {
         InternalDroplet internalDroplet = copyDroplet(droplet);
         internalDroplet.setName(droplet.getName());
 
-        String href = "/v2/droplets";
         DropletContainer dropletContainer =  getDataStore().create(
-            href,
+            BASE_URI,
             internalDroplet,
             null,
             DropletContainer.class
@@ -88,9 +93,8 @@ public class DefaultClient extends AbstractClient {
         InternalDroplet internalDroplet = copyDroplet(droplet);
         internalDroplet.setNames(names);
 
-        String href = "/v2/droplets";
         return getDataStore().create(
-            href,
+            BASE_URI,
             internalDroplet,
             null,
             DropletList.class
@@ -99,7 +103,7 @@ public class DefaultClient extends AbstractClient {
 
     @Override
     public void deleteByTag(String tag) {
-        String href = "/v2/droplets?tag_name=" + tag;
+        String href = BASE_URI + "?tag_name=" + tag;
         getDataStore().delete(href);
     }
 
