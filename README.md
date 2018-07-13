@@ -26,6 +26,7 @@ digitalocean:
 Here are some links used in the talk:
 
 * [Speaker Deck](beautiful_sdk_design_with_java.pdf)
+* [Screencast](https://youtu.be/cajPeXQl_nw)
 * [HTTPie](https://github.com/jkbrzt/httpie)
 * [Digital Ocean API docs](https://developers.digitalocean.com/documentation/v2)
 * [Free Okta Org for Developers](https://developer.okta.com)
