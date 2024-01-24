@@ -15,6 +15,8 @@ public class QuickStart {
 
     private static final Logger log = LoggerFactory.getLogger(QuickStart.class);
     private static final String REGION_SLUG = "nyc1";
+    private static final String DROPLET_SIZE = "s-1vcpu-1gb";
+    private static final String DROPLET_IMAGE = "ubuntu-20-04-x64";
 
     public static void main(String[] args) {
         // demo
@@ -25,8 +27,8 @@ public class QuickStart {
         Droplet droplet = DropletBuilder.instance()
             .setName("micah-standalone")
             .setRegionSlug(REGION_SLUG)
-            .setSize("s-1vcpu-1gb")
-            .setImage("ubuntu-16-04-x64")
+            .setSize(DROPLET_SIZE)
+            .setImage(DROPLET_IMAGE)
             .addTag("micah")
             .buildAndCreate(client);
 
@@ -42,8 +44,8 @@ public class QuickStart {
         Droplet dropletTemplate = DropletBuilder.instance()
             .setName(tagName + "-test")
             .setRegionSlug(REGION_SLUG)
-            .setSize("s-1vcpu-1gb")
-            .setImage("ubuntu-16-04-x64")
+            .setSize(DROPLET_SIZE)
+            .setImage(DROPLET_IMAGE)
             .addTag(tagName)
             .build(client);
 
@@ -59,8 +61,8 @@ public class QuickStart {
         dropletTemplate = DropletBuilder.instance()
             .setName(tagName + "-test")
             .setRegionSlug(REGION_SLUG)
-            .setSize("s-1vcpu-1gb")
-            .setImage("ubuntu-16-04-x64")
+            .setSize(DROPLET_SIZE)
+            .setImage(DROPLET_IMAGE)
             .addTag(tagName)
             .build(client);
 
